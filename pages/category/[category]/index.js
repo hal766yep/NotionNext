@@ -17,13 +17,16 @@ export async function getStaticProps({ params: { category }, locale }) {
   const from = 'category-props'
   let props = await fetchGlobalAllData({ from, locale })
 
+  // 解码 category 参数
+  const decodedCategory = decodeURIComponent(category)
+
   // 过滤状态
   props.posts = props.allPages?.filter(
     page => page.type === 'Post' && page.status === 'Published'
   )
-  // 处理过滤
+  // 处理过滤 - 使用精确匹配
   props.posts = props.posts.filter(
-    post => post && post.category && post.category.includes(category)
+    post => post && post.category && post.category === decodedCategory
   )
   // 处理文章页数
   props.postCount = props.posts.length
@@ -58,7 +61,7 @@ export async function getStaticPaths() {
   const { categoryOptions } = await fetchGlobalAllData({ from })
   return {
     paths: Object.keys(categoryOptions).map(category => ({
-      params: { category: categoryOptions[category]?.name }
+      params: { category: encodeURIComponent(categoryOptions[category]?.name) }
     })),
     fallback: true
   }
