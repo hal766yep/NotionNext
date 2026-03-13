@@ -2,7 +2,7 @@
 
 const BLOG = {
   API_BASE_URL: process.env.API_BASE_URL || 'https://www.notion.so/api/v3',
-  NOTION_PAGE_ID: process.env.NOTION_PAGE_ID || '97274b10-4ad1-83bf-8142-81f9ab782a4f,en:7c1d570661754c8fbc568e00a01fd70e',
+  NOTION_PAGE_ID: process.env.NOTION_PAGE_ID || '97274b10-4ad1-83bf-8142-81f9ab782a4f',
   THEME: process.env.NEXT_PUBLIC_THEME || 'heo',
   LANG: process.env.NEXT_PUBLIC_LANG || 'zh-CN',
   SINCE: process.env.NEXT_PUBLIC_SINCE || 2021,
@@ -14,7 +14,7 @@ const BLOG = {
 
   AUTHOR: process.env.NEXT_PUBLIC_AUTHOR || 'jamie',
   BIO: process.env.NEXT_PUBLIC_BIO || '嵌入式软件工程师 & 运动控制工程师🔧 | 热爱技术分享',
-  LINK: process.env.NEXT_PUBLIC_LINK || 'https://notion-next-zeta-one-73.vercel.app',
+  LINK: process.env.NEXT_PUBLIC_LINK || 'https://www.notion-next.online',
   KEYWORDS: process.env.NEXT_PUBLIC_KEYWORD || 'Notion, 博客, 嵌入式, 运动控制',
   BLOG_FAVICON: process.env.NEXT_PUBLIC_FAVICON || '/favicon.ico',
 
