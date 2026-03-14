@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 
 /**
  * 页面的Head头，有用于SEO
+ * 优化版本：增强SEO、社交分享、性能
  * @param {*} param0
  * @returns
  */
@@ -98,14 +99,22 @@ const SEO = props => {
   const FACEBOOK_PAGE = siteConfig('FACEBOOK_PAGE', null, NOTION_CONFIG)
 
   const AUTHOR = siteConfig('AUTHOR')
+  
+  // 生成完整URL用于canonical和分享
+  const canonicalUrl = url + (meta?.slug ? `/${meta.slug}` : '')
+  
   return (
     <Head>
       <link rel='icon' href={favicon} />
       <title>{title}</title>
+      
+      {/* Canonical URL - 防止重复内容问题 */}
+      <link rel='canonical' href={canonicalUrl} />
+      
       <meta name='theme-color' content={BACKGROUND_DARK} />
       <meta
         name='viewport'
-        content='width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0'
+        content='width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, viewport-fit=cover'
       />
       <meta name='robots' content='follow, index, max-snippet:-1, max-image-preview:large, max-video-preview:-1' />
       <meta charSet='UTF-8' />
@@ -113,7 +122,7 @@ const SEO = props => {
       <meta name='mobile-web-app-capable' content='yes' />
       <meta name='apple-mobile-web-app-capable' content='yes' />
       <meta name='apple-mobile-web-app-status-bar-style' content='default' />
-      <meta name='apple-mobile-web-app-title' content={title} />
+      <meta name='apple-mobile-web-app-title' content={siteConfig('TITLE')} />
 
       {/* 搜索引擎验证 */}
       {SEO_GOOGLE_SITE_VERIFICATION && (
@@ -134,24 +143,34 @@ const SEO = props => {
       <meta name='description' content={description} />
       <meta name='author' content={AUTHOR} />
       <meta name='generator' content='NotionNext' />
+      
+      {/* 优化: 添加页面创建/修改时间用于SEO */}
+      {meta?.publishDay && (
+        <meta name='date' content={meta.publishDay} />
+      )}
 
       {/* 语言和地区 */}
       <meta httpEquiv='content-language' content={siteConfig('LANG')} />
       <meta name='geo.region' content={siteConfig('GEO_REGION', 'CN')} />
       <meta name='geo.country' content={siteConfig('GEO_COUNTRY', 'CN')} />
-      {/* Open Graph 元数据 */}
+      
+      {/* Open Graph 元数据 - 增强社交分享 */}
       <meta property='og:locale' content={lang} />
       <meta property='og:title' content={title} />
       <meta property='og:description' content={description} />
-      <meta property='og:url' content={url} />
+      <meta property='og:url' content={canonicalUrl} />
       <meta property='og:image' content={image} />
       <meta property='og:image:width' content='1200' />
       <meta property='og:image:height' content='630' />
       <meta property='og:image:alt' content={title} />
       <meta property='og:site_name' content={siteConfig('TITLE')} />
       <meta property='og:type' content={type} />
+      
+      {/* Facebook / Open Graph 额外标签 */}
+      <meta property='fb:app_id' content={siteConfig('FB_APP_ID', '', NOTION_CONFIG)} />
+      <meta property='fb:admins' content={siteConfig('FB_ADMINS', '', NOTION_CONFIG)} />
 
-      {/* Twitter Card 元数据 */}
+      {/* Twitter Card 元数据 - 增强社交分享 */}
       <meta name='twitter:card' content='summary_large_image' />
       <meta name='twitter:site' content={siteConfig('TWITTER_SITE', '@NotionNext')} />
       <meta name='twitter:creator' content={siteConfig('TWITTER_CREATOR', '@NotionNext')} />
@@ -159,8 +178,16 @@ const SEO = props => {
       <meta name='twitter:description' content={description} />
       <meta name='twitter:image' content={image} />
       <meta name='twitter:image:alt' content={title} />
+      
+      {/* 微信/QQ 分享卡片优化 */}
+      <meta name='twitter:player' content={siteConfig('TWITTER_PLAYER', '', NOTION_CONFIG)} />
+      <meta name='twitter:player:width' content='1200' />
+      <meta name='twitter:player:height' content='630' />
 
       <link rel='icon' href={BLOG_FAVICON} />
+
+      {/* RSS Feed */}
+      <link rel='alternate' type='application/rss+xml' title={`${siteConfig('TITLE')} RSS Feed`} href='/rss/feed.xml' />
 
       {COMMENT_WEBMENTION_ENABLE && (
         <>
@@ -190,21 +217,28 @@ const SEO = props => {
           <meta property='article:section' content={category} />
           <meta property='article:tag' content={keywords} />
           <meta property='article:publisher' content={FACEBOOK_PAGE} />
+          
+          {/* 阅读时间估算 */}
+          {meta?.readingTime && (
+            <meta property='article:reading_time' content={meta.readingTime} />
+          )}
         </>
       )}
 
-      {/* 结构化数据 */}
+      {/* 结构化数据 - 增强版 */}
       <script
         type='application/ld+json'
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(generateStructuredData(meta, siteInfo, url, image, AUTHOR))
+          __html: JSON.stringify(generateStructuredData(meta, siteInfo, url, image, AUTHOR, canonicalUrl))
         }}
       />
 
       {/* DNS预取和预连接 */}
       <link rel='dns-prefetch' href='//fonts.googleapis.com' />
+      <link rel='dns-prefetch' href='//fonts.gstatic.com' />
       <link rel='dns-prefetch' href='//www.google-analytics.com' />
       <link rel='dns-prefetch' href='//www.googletagmanager.com' />
+      <link rel='dns-prefetch' href='//cdnjs.cloudflare.com' />
       <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin='anonymous' />
 
       {/* 预加载关键资源 */}

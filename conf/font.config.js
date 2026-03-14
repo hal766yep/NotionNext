@@ -7,30 +7,32 @@ module.exports = {
   // ['font-serif','font-sans'] 两种可选，分别是衬线和无衬线: 参考 https://www.jianshu.com/p/55e410bd2115
   // 后面空格隔开的font-light的字体粗细，留空是默认粗细；参考 https://www.tailwindcss.cn/docs/font-weight
   FONT_STYLE: process.env.NEXT_PUBLIC_FONT_STYLE || 'font-sans font-light',
-  // 字体CSS 例如 https://npm.elemecdn.com/lxgw-wenkai-webfont@1.6.0/style.css
+  // 字体CSS - 使用更美观的中文字体
   FONT_URL: [
-    // 'https://npm.elemecdn.com/lxgw-wenkai-webfont@1.6.0/style.css',
-    'https://fonts.googleapis.com/css?family=Bitter:300,400,700&display=swap',
-    'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap',
-    'https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;700&display=swap'
+    // 使用思源黑体和思源宋体，Google Fonts 优化版
+    'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap',
+    // 英文衬线字体 - 使用更优雅的字体
+    'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap',
+    // Font Awesome
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
   ],
 
   // 字体优化配置
   FONT_DISPLAY: process.env.NEXT_PUBLIC_FONT_DISPLAY || 'swap',
   FONT_PRELOAD: process.env.NEXT_PUBLIC_FONT_PRELOAD || true,
   FONT_SUBSET: process.env.NEXT_PUBLIC_FONT_SUBSET || 'chinese-simplified',
-  // 无衬线字体 例如'"LXGW WenKai"'
+  // 无衬线字体 - 优化排序，优先使用现代美观字体
   FONT_SANS: [
-    // '"LXGW WenKai"',
+    '"Inter"',
+    '"Noto Sans SC"',
     '"PingFang SC"',
+    '"Microsoft YaHei"',
+    '"Hiragino Sans GB"',
     '-apple-system',
     'BlinkMacSystemFont',
-    '"Hiragino Sans GB"',
-    '"Microsoft YaHei"',
     '"Segoe UI Emoji"',
     '"Segoe UI Symbol"',
     '"Segoe UI"',
-    '"Noto Sans SC"',
     'HarmonyOS_Regular',
     '"Helvetica Neue"',
     'Helvetica',
@@ -39,12 +41,11 @@ module.exports = {
     'sans-serif',
     '"Apple Color Emoji"'
   ],
-  // 衬线字体 例如'"LXGW WenKai"'
+  // 衬线字体 - 使用优雅的衬线字体
   FONT_SERIF: [
-    // '"LXGW WenKai"',
-    'Bitter',
+    '"Playfair Display"',
     '"Noto Serif SC"',
-    'SimSun',
+    'Georgia',
     '"Times New Roman"',
     'Times',
     'serif',
